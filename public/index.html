@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <title>CS4241 Assignment 2</title>
+  <meta charset='utf-8'>
+  <script src='js/main.js' defer></script>
+  <link rel='stylesheet' href='css/main.css'>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Mono:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- get rid of favicon error -->
+  <link rel='icon' href='data:;base64,iVBORw0KGgo='>
+</head>
+
+<body>
+  <header>
+
+  <h1> 10 seconds clicker challenge</h1>
+  <h2> How many times can you click in 10 seconds?</h2>
+</header>
+  <main>
+  <aside id="leaderBoard">
+  <h2>High Score</h2>
+  <table>
+    <thead>
+      <tr>
+        <th scope ="col">Rank</th>
+        <th scope ="col">Score</th>
+        <th scope ="col">CPS</th>
+        <th scope ="col">Name</th>
+        <th scope ="col">Date </th>
+        <th scope="col">Remove</th> 
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  </aside>
+
+  <div class="clickerGame">
+  <h2 id="timer">TIME LEFT: 10</h2>
+  <p id="scoreBoard">Score: 0</p>
+
+  <h3 id="instructions"> click to start playing!</h3>
+  <button id="clicker" type="button"> clicker</button>
+  <form id="scoreForm" >
+    <label for="nameScore"> Your name:</label>
+    <input type='text' id='nameScore' value=''>
+    <button id="sumbitScore" >submit</button>
+  </form>
+  </div>
+  </main>
+
+
+</body>
+
+</html>
