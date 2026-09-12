@@ -1,6 +1,6 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 let score = 0;
-let time = 9;
+let time = 1;
 let hasRun = false;
 let intervalId;
 
@@ -44,15 +44,16 @@ function editTimer() {
 function startCountDown() {
   intervalId = setInterval(editTimer, 1000);
 }
-async function getGameData(event) {
+async function getGameData() {
   try {
     const response = await fetch("/getData", {
       method: "GET",
     });
     const data = await response.json();
+    console.log(data);
     renderTable(data);
   } catch (error) {
-    // console.error(error.message);
+    console.error(error.message);
   }
 }
 
@@ -85,9 +86,7 @@ function renderTable(gameData) {
         method: "POST",
         headers: { "Content-Type": "application/json" }, 
         body: JSON.stringify({
-          name:  entry.name,
-          score: entry.score,
-          date:  entry.date
+          _id:  entry._id
         })
       });
       getGameData();
