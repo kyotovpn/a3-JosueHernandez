@@ -4,12 +4,14 @@
 <head>
   <title>CS4241 Assignment 2</title>
   <meta charset='utf-8'>
+  <meta name="description" content="Clicker game, how many times can you click the button in 10 seconds ">
   <script src='js/main.js' defer></script>
-  <link rel='stylesheet' href='css/main.css'>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Mono:ital@0;1&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Mono:ital@0;1&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css">
+  <link rel='stylesheet' href='css/main.css'>
   <!-- get rid of favicon error -->
   <link rel='icon' href='data:;base64,iVBORw0KGgo='>
 </head>
@@ -17,40 +19,56 @@
 <body>
   <header>
 
-  <h1> 10 seconds clicker challenge</h1>
-  <h2> How many times can you click in 10 seconds?</h2>
-</header>
+    <h1> 10 seconds clicker challenge</h1><i class="nes-logo"></i>
+      <h2> How many times can you click in 10 seconds?</h2>
+  </header>
   <main>
-  <aside id="leaderBoard">
-  <h2>High Score</h2>
-  <table>
-    <thead>
-      <tr>
-        <th scope ="col">Rank</th>
-        <th scope ="col">Score</th>
-        <th scope ="col">CPS</th>
-        <th scope ="col">Name</th>
-        <th scope ="col">Date </th>
-        <th scope="col">Remove</th> 
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
-  </aside>
+    <aside id="leaderBoard" class="nes-table-responsive">
+      <h2>High Score</h2>
+      <table class="nes-table is-bordered is-centered">
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Score</th>
+            <th scope="col">CPS</th>
+            <th scope="col">Name</th>
+            <th scope="col">Date </th>
+            <th scope="col">Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </aside>
 
-  <div class="clickerGame">
-  <h2 id="timer">TIME LEFT: 10</h2>
-  <p id="scoreBoard">Score: 0</p>
+    <div id="LoginScreen">
 
-  <h3 id="instructions"> click to start playing!</h3>
-  <button id="clicker" type="button"> clicker</button>
-  <form id="scoreForm" >
-    <label for="nameScore"> Your name:</label>
-    <input type='text' id='nameScore' value=''>
-    <button id="sumbitScore" >submit</button>
-  </form>
-  </div>
+      <h3>Please login to play</h3>
+      <a class="nes-badge" href="/auth/github">
+        <span class="is-warning">Login with GitHub</span>
+      </a>
+    </div>
+
+    <div class="nes-container with-title  clickerGame" id="gameScreen">
+      <h2 id="timer">TIME LEFT: 10</h2>
+      <p id="scoreBoard">Score: 0</p>
+
+      <h3 id="instructions"> click to start playing!</h3>
+
+      <button id="clicker" type="button" class="nes-btn is-primary"> clicker</button>
+      <form id="scoreForm">
+        <label for="nameScore"> Your name:</label>
+        <input type='text' id='nameScore' value=''>
+        <button type='button' class="nes-btn is-success" id="sumbitScore">submit</button>
+      </form>
+      <a id='logoutButton' class="nes-badge" href="/logout">
+        <span class="is-warning">Logout</span>
+      </a>
+
+
+
+
+    </div>
   </main>
 
 

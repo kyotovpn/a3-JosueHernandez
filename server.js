@@ -3,6 +3,10 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 const { ObjectId } = require('mongodb'); 
 const uri = `mongodb+srv://${process.env.DBUSER}:${process.env.PASSWORD}@${process.env.HOSTDB}`;
 const express = require("express");
+
+const session = require("express-session");
+const passport = require("passport");
+const GitHubStrategy = require("passport-github2").Strategy;
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -13,8 +17,49 @@ const client = new MongoClient(uri, {
 app = express();
 app.use(express.static("public"));
 app.use(express.json());
-let collection = null;
 
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize())
+app.use(passport.session());
+
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+     return done(null, profile);
+  }
+));
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((obj, done) => done(null, obj));
+
+
+app.get('/me', (req, res) => {
+  res.json({ loggedIn: req.isAuthenticated(), user: req.user || null });
+});
+app.get('/auth/github',
+  passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+app.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) return res.redirect('/');
+    res.redirect('/');
+  });
+});
+
+let collection = null;
 async function run() {
   // Connect the client to the server	(optional starting in v4.7)
   await client.connect();

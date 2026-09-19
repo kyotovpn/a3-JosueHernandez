@@ -25,7 +25,13 @@ main{
   font-weight: 400;
   font-style: normal;
 }
-
+#LoginScreen{
+  display: block;
+  color:black;
+}
+#gameScreen{
+  display: none;
+}
 #scoreForm{
  display: none;
  padding: 1em;
@@ -40,7 +46,6 @@ main{
   flex-direction: column;
   align-items: center;
   flex-grow: 0;
-  border: 10px ridge lightblue;
 }
 #leaderBoard{
   visibility: visible;
@@ -66,4 +71,16 @@ main{
   height: 200px;
   width: 200px;
 }
+#logoutButton{
 
+  margin-top: 50px;
+}
+#LoginScreen{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+}
+#sumbitScore{
+  margin-top: 50px;
+}

@@ -94,18 +94,19 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 
 ## Your Web Application Title
 
-A link to your project running on render.
+https://a3-josuehernandez.onrender.com/
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
 - the goal of the application
 - challenges you faced in realizing the application
 - what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
+- CSS framework used: Nes.css because of the game like design are useful for my mini game.
+
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-
+- **Tech Achievement 2**: LightHouse Test Score: 
+- **Tech Achievement 3**: Express middleware packages used; session
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...

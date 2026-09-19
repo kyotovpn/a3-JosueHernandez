@@ -1,4 +1,5 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
+// script.js
 let score = 0;
 let time = 1;
 let hasRun = false;
@@ -69,14 +70,13 @@ function renderTable(gameData) {
     rank.setAttribute("scope", "row");
     rank.textContent = i + 1;
     row.append(rank);
-  
 
-  for (const key of ["score","cps","name", "date"]) {
-    const cell = document.createElement("td");
-    cell.textContent = entry[key];
-    row.append(cell);
-  }
-      const actions = document.createElement("td");
+    for (const key of ["score", "cps", "name", "date"]) {
+      const cell = document.createElement("td");
+      cell.textContent = entry[key];
+      row.append(cell);
+    }
+    const actions = document.createElement("td");
     const del = document.createElement("button");
     del.textContent = "delete";
     del.className = "deleteBtn";
@@ -84,10 +84,10 @@ function renderTable(gameData) {
     del.addEventListener("click", async () => {
       await fetch("/delete", {
         method: "POST",
-        headers: { "Content-Type": "application/json" }, 
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          _id:  entry._id
-        })
+          _id: entry._id,
+        }),
       });
       getGameData();
     });
@@ -138,7 +138,7 @@ const submit = async function (event) {
   } else {
     const response = await fetch("/submit", {
       method: "POST",
-       headers: { "Content-Type": "application/json" }, 
+      headers: { "Content-Type": "application/json" },
       body,
     });
     const text = await response.text();
@@ -147,6 +147,19 @@ const submit = async function (event) {
     getGameData();
   }
 };
+
+fetch("/me")
+  .then((res) => res.json())
+  .then((data) => {
+
+    if(data.loggedIn){
+      document.getElementById("LoginScreen").style.display= "none";
+      document.getElementById("gameScreen").style.display= "flex";
+    }else{
+      document.getElementById("LoginScreen").style.display= "block";
+      document.getElementById("gameScreen").style.display= "none";
+    }
+  });
 
 window.onload = function () {
   sumbitScore.onclick = submit;
