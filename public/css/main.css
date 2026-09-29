@@ -52,6 +52,7 @@ main{
   display: flex;
   flex-direction: column;
   align-items: center;
+   min-height: 420px;
 }
 #leaderBoard tbody {
   min-height: 200px; 
