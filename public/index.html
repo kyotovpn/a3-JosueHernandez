@@ -8,9 +8,11 @@
   <script src='js/main.js' defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Mono:ital@0;1&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Mono:ital@0;1&display=swap"
+    media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" media="print" onload="this.media='all'">
+
   <link rel='stylesheet' href='css/main.css'>
   <!-- get rid of favicon error -->
   <link rel='icon' href='data:;base64,iVBORw0KGgo='>
@@ -62,7 +64,7 @@
         <label for="userNote"> Your note:</label>
         <textarea maxlength="25" id='userNote'></textarea>
 
-        <button type='button' id="sumbitScore" >submit</button>
+        <button type='button' id="sumbitScore">submit</button>
       </form>
       <a id='logoutButton' class="nes-badge" href="/logout">
         <span class="is-warning">Logout</span>

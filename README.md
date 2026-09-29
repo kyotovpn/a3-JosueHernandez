@@ -92,21 +92,24 @@ Write a paragraph of at least 125 words *for each of the four principles* (four 
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## 10 Second Clicker Challenge
+===
 
 https://a3-josuehernandez.onrender.com/
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+A retro-styled clicker game: click a button as many times as you can in 10 seconds, then submit your score with a short note to a shared leaderboard. Scores persist in MongoDB and are tied to your GitHub account, so you can only edit or delete your own entries.
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- CSS framework used: Nes.css because of the game like design are useful for my mini game.
-
+- **Goal**: build a two-tier web app (Express + MongoDB) with authenticated CRUD on user-owned data, styled with a CSS framework.
+- **Challenges**: wiring up Passport's GitHub OAuth session flow (serialize/deserialize, callback URL handling between local dev and the Render deployment) and enforcing per-user ownership on edit/delete so one player can't modify or remove another's score.
+- **Authentication strategy**: GitHub OAuth via passport-github2. Chosen over a username/password scheme because it avoids storing credentials and was the more natural fit for a lightweight game leaderboard.
+- **CSS framework**: NES.css, chosen deliberately as the exception the assignment allows for game-like sites — it gives the leaderboard and clicker UI a retro arcade look with minimal custom CSS.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-- **Tech Achievement 2**: LightHouse Test Score: 
-- **Tech Achievement 3**: Express middleware packages used; session
+- **Tech Achievement 1**: OAuth authentication via the GitHub strategy (passport-github2), gating score submission, editing, and deletion behind `req.isAuthenticated()`.
+- **Tech Achievement 2**: Lighthouse test score: TODO: share lighthouse score and screenshot 
+- **Tech Achievement 3**: Express middleware packages used:
+  - express-session`
+  - passport
+  - passport-github2
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+
