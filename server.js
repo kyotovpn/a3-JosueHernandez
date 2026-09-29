@@ -33,6 +33,11 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.GITHUB_CALLBACK_URL
   },
   function(accessToken, refreshToken, profile, done) {
+    const user ={
+      id: profile.id,
+      usernmae: profile.usernmae,
+      displayName: profile.displayName || profile.username
+    }
      return done(null, profile);
   }
 ));
@@ -75,7 +80,10 @@ const deriveFields = function (row) {
 
 const middleware_post = async (req, res, next) => {
   try {
-    const newData = req.body;
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "must be logged in to submit a score" });
+    }
+    const newData = { ...req.body, name: req.user.username };
 
     await collection.insertOne(newData);
     console.log(collection.find({}).toArray());
@@ -102,8 +110,19 @@ const middleware_get = async (req, res, next) => {
 
 const middleware_delete = async (req, res, next) => {
   try {
+    if(!req.isAuthenticated()){
+      return res.status(401).json({ error:"must be logged in to delete score"})
+    }
+
     const query = { _id: new ObjectId(req.body._id)};
-    console.log(query)
+
+    const existing = await collection.findOne(query);
+    if(!existing) {
+      return res.status(400).json({ error:"score not found"})
+    }
+    if (existing.name !== req.user.username){
+      return res.status(403).json({ error: "you can only delete your own scores" });
+    }
     const deleteResult = await collection.deleteOne(query);
     res.send(JSON.stringify(deleteResult));
   } catch (err) {
@@ -112,11 +131,37 @@ const middleware_delete = async (req, res, next) => {
   }
 
 };
+const middleware_edit = async (req, res, next) => {
+  try {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "must be logged in to edit a score" });
+    }
+    if (!ObjectId.isValid(req.body._id)) {
+      return res.status(400).json({ error: "invalid id" });
+    }
+    const note = typeof req.body.note === "string" ? req.body.note.slice(0, 25) : "";
+    const query = { _id: new ObjectId(req.body._id) };
+
+    const existing = await collection.findOne(query);
+    if (!existing) {
+      return res.status(400).json({ error: "score not found" });
+    }
+    if (existing.name !== req.user.username) {
+      return res.status(403).json({ error: "you can only edit your own scores" });
+    }
+    const updateResult = await collection.updateOne(query, { $set: { note } });
+    res.json(updateResult);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("error editing score");
+  }
+};
 
 app.use(express.static("./"));
 
 app.post("/submit", middleware_post);
 app.get("/getData", middleware_get);
 app.post("/delete", middleware_delete);
+app.post("/edit", middleware_edit);
 
 const listener = app.listen(process.env.PORT || 3000);

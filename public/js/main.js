@@ -1,9 +1,10 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 // script.js
 let score = 0;
-let time = 1;
+let time = 10;
 let hasRun = false;
 let intervalId;
+let currentUser = null;
 
 const timer = document.getElementById("timer");
 const currentScore = document.getElementById("scoreBoard");
@@ -71,32 +72,61 @@ function renderTable(gameData) {
     rank.textContent = i + 1;
     row.append(rank);
 
-    for (const key of ["score", "cps", "name", "date"]) {
+    let noteCell;
+    for (const key of ["score", "name", "cps", "note", "date"]) {
       const cell = document.createElement("td");
       cell.textContent = entry[key];
+      if (key === "note") noteCell = cell;
       row.append(cell);
     }
     const actions = document.createElement("td");
-    const del = document.createElement("button");
-    del.textContent = "delete";
-    del.className = "deleteBtn";
 
-    del.addEventListener("click", async () => {
-      await fetch("/delete", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          _id: entry._id,
-        }),
+    if (currentUser && entry.name === currentUser.username) {
+      const editBtn = document.createElement("button");
+      editBtn.textContent = "edit";
+      editBtn.className = "editBtn";
+
+      editBtn.addEventListener("click", () => {
+        const input = document.createElement("input");
+        input.maxLength = 25;
+        input.value = entry.note || "";
+        noteCell.textContent = "";
+        noteCell.append(input);
+        input.focus();
+
+        editBtn.textContent = "save";
+        editBtn.onclick = async () => {
+          await fetch("/edit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ _id: entry._id, note: input.value }),
+          });
+          getGameData();
+        };
       });
-      getGameData();
-    });
 
-    actions.append(del);
+      actions.append(editBtn);
+
+      const del = document.createElement("button");
+      del.textContent = "delete";
+      del.className = "deleteBtn";
+
+      del.addEventListener("click", async () => {
+        await fetch("/delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ _id: entry._id }),
+        });
+        getGameData();
+      });
+
+      actions.append(del);
+    }
     row.append(actions);
     tblBody.append(row);
   });
 }
+
 
 function endGame() {
   score = 0;
@@ -129,8 +159,8 @@ const submit = async function (event) {
   let currentDate = new Date();
   let gamedate = currentDate.toDateString();
 
-  const input = document.getElementById("nameScore"),
-    json = { score: score, name: input.value, date: gamedate },
+  const input = document.getElementById("userNote"),
+    json = { score: score, name: currentUser.username,note: input.value, date: gamedate },
     body = JSON.stringify(json);
 
   if (input === "") {
@@ -153,6 +183,8 @@ fetch("/me")
   .then((data) => {
 
     if(data.loggedIn){
+      currentUser = data.user;
+      document.getElementById("playerName").textContent = currentUser.username;
       document.getElementById("LoginScreen").style.display= "none";
       document.getElementById("gameScreen").style.display= "flex";
     }else{

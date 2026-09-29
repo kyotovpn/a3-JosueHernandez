@@ -20,18 +20,19 @@
   <header>
 
     <h1> 10 seconds clicker challenge</h1><i class="nes-logo"></i>
-      <h2> How many times can you click in 10 seconds?</h2>
+    <h2> How many times can you click in 10 seconds?</h2>
   </header>
   <main>
     <aside id="leaderBoard" class="nes-table-responsive">
-      <h2>High Score</h2>
+      <h2>Leader Board</h2>
       <table class="nes-table is-bordered is-centered">
         <thead>
           <tr>
             <th scope="col">Rank</th>
             <th scope="col">Score</th>
-            <th scope="col">CPS</th>
             <th scope="col">Name</th>
+            <th scope="col">CPS</th>
+            <th scope="col">Note</th>
             <th scope="col">Date </th>
             <th scope="col">Remove</th>
           </tr>
@@ -57,9 +58,11 @@
 
       <button id="clicker" type="button" class="nes-btn is-primary"> clicker</button>
       <form id="scoreForm">
-        <label for="nameScore"> Your name:</label>
-        <input type='text' id='nameScore' value=''>
-        <button type='button' class="nes-btn is-success" id="sumbitScore">submit</button>
+        <p>Username: <strong id="playerName"></strong></p>
+        <label for="userNote"> Your note:</label>
+        <textarea maxlength="25" id='userNote'></textarea>
+
+        <button type='button' id="sumbitScore" >submit</button>
       </form>
       <a id='logoutButton' class="nes-badge" href="/logout">
         <span class="is-warning">Logout</span>
